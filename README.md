@@ -3,7 +3,7 @@
 What is Mothpad?
 ----------------
 Mothpad is an interactive geometric pattern creation game. Design intricate 
-moth-like patterns on a  using simple clicks!
+moth-like patterns on a using simple clicks!
 
 How to Play
 -----------
@@ -25,5 +25,3 @@ Tips
 - Try to create repeating patterns.
 - Use fully black squares for bold lines.
 - Experiment and have fun!
-
-Enjoy creating beautiful moth-inspired patterns with Mothpad!
