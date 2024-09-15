@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mothpad</title>
+    <!-- 
+Mothpad
+
+What is Mothpad?
+----------------
+Mothpad is an interactive geometric pattern creation game. Design intricate 
+moth-like patterns on a  using simple clicks!
+
+How to Play
+-----------
+1. Open the Mothpad HTML file in your web browser.
+2. You'll see a 36x36 grid of white squares. Size adjustable in the code.
+3. Click on any square to cycle through 6 states:
+   - All white
+   - Top-left black triangle
+   - Top-right black triangle
+   - Bottom-left black triangle
+   - Bottom-right black triangle
+   - All black
+4. Create patterns by clicking different squares.
+5. Scroll if the grid doesn't fit your screen.
+
+Tips
+----
+- Start with simple symmetrical designs.
+- Try to create repeating patterns.
+- Use fully black squares for bold lines.
+- Experiment and have fun!
+
+Enjoy creating beautiful moth-inspired patterns with Mothpad!
+-->
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .grid-container {
+            overflow: auto;
+            max-height: 95vh;
+            max-width: 95vw;
+            padding: 10px;
+            background-color: #ccc;
+            border-radius: 5px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(36, 20px); /* Afjust pad size */
+            grid-template-rows: repeat(36, 20px);    /* Afjust pad size */
+            gap: 1px;
+        }
+        .square {
+            width: 20px;
+            height: 20px;
+            background-color: white;
+            position: relative;
+            cursor: pointer;
+        }
+        .triangle {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-style: solid;
+        }
+        .top-left {
+            top: 0;
+            left: 0;
+            border-width: 20px 20px 0 0;
+            border-color: transparent transparent transparent transparent;
+        }
+        .top-right {
+            top: 0;
+            right: 0;
+            border-width: 0 20px 20px 0;
+            border-color: transparent transparent transparent transparent;
+        }
+        .bottom-left {
+            bottom: 0;
+            left: 0;
+            border-width: 20px 0 0 20px;
+            border-color: transparent transparent transparent transparent;
+        }
+        .bottom-right {
+            bottom: 0;
+            right: 0;
+            border-width: 0 0 20px 20px;
+            border-color: transparent transparent transparent transparent;
+        }
+    </style>
+</head>
+<body>
+    <div class="grid-container">
+        <div class="grid" id="grid"></div>
+    </div>
+
+    <script>
+        const grid = document.getElementById('grid');
+        const totalSquares = 36 * 36;                  /* Afjust pad size */
+
+        for (let i = 0; i < totalSquares; i++) {
+            const square = document.createElement('div');
+            square.className = 'square';
+            square.setAttribute('data-state', '0');
+
+            const topLeft = document.createElement('div');
+            topLeft.className = 'triangle top-left';
+            const topRight = document.createElement('div');
+            topRight.className = 'triangle top-right';
+            const bottomLeft = document.createElement('div');
+            bottomLeft.className = 'triangle bottom-left';
+            const bottomRight = document.createElement('div');
+            bottomRight.className = 'triangle bottom-right';
+
+            square.appendChild(topLeft);
+            square.appendChild(topRight);
+            square.appendChild(bottomLeft);
+            square.appendChild(bottomRight);
+
+            square.addEventListener('click', () => {
+                const currentState = parseInt(square.getAttribute('data-state'));
+                const newState = (currentState + 1) % 6;
+                square.setAttribute('data-state', newState);
+                updateSquare(square, newState);
+            });
+
+            grid.appendChild(square);
+        }
+
+        function updateSquare(square, state) {
+            const triangles = square.querySelectorAll('.triangle');
+            
+            switch (state) {
+                case 0: // All white
+                    square.style.backgroundColor = 'white';
+                    triangles.forEach(t => t.style.borderColor = 'transparent transparent transparent transparent');
+                    break;
+                case 1: // Top-left triangle black
+                    square.style.backgroundColor = 'white';
+                    triangles[0].style.borderColor = 'black transparent transparent transparent';
+                    triangles[1].style.borderColor = 'transparent transparent transparent transparent';
+                    triangles[2].style.borderColor = 'transparent transparent transparent transparent';
+                    triangles[3].style.borderColor = 'transparent transparent transparent transparent';
+                    break;
+                case 2: // Top-right triangle black
+                    square.style.backgroundColor = 'white';
+                    triangles[0].style.borderColor = 'transparent transparent transparent transparent';
+                    triangles[1].style.borderColor = 'transparent black transparent transparent';
+                    triangles[2].style.borderColor = 'transparent transparent transparent transparent';
+                    triangles[3].style.borderColor = 'transparent transparent transparent transparent';
+                    break;
+                case 3: // Bottom-left triangle black
+                    square.style.backgroundColor = 'white';
+                    triangles[0].style.borderColor = 'transparent transparent transparent transparent';
+                    triangles[1].style.borderColor = 'transparent transparent transparent transparent';
+                    triangles[2].style.borderColor = 'transparent transparent transparent black';
+                    triangles[3].style.borderColor = 'transparent transparent transparent transparent';
+                    break;
+                case 4: // Bottom-right triangle black
+                    square.style.backgroundColor = 'white';
+                    triangles[0].style.borderColor = 'transparent transparent transparent transparent';
+                    triangles[1].style.borderColor = 'transparent transparent transparent transparent';
+                    triangles[2].style.borderColor = 'transparent transparent transparent transparent';
+                    triangles[3].style.borderColor = 'transparent transparent black transparent';
+                    break;
+                case 5: // All black
+                    square.style.backgroundColor = 'black';
+                    triangles.forEach(t => t.style.borderColor = 'transparent transparent transparent transparent');
+                    break;
+            }
+        }
+    </script>
+</body>
+</html>
